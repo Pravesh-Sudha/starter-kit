@@ -25,7 +25,7 @@ type Props = {
 	publication: Publication;
 };
 
-export default function Post({ publication, post }: Props) {
+export default function PostPage({ publication, post }: Props) {
 	if (!post) {
 		return <ErrorPage statusCode={404} />;
 	}

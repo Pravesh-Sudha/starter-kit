@@ -109,7 +109,7 @@ export const Footer = () => {
 					</div>
 				</div>
 				<div className="mt-12 border-t border-gray-600 pt-8">
-					<p className="text-center text-gray-400">© 202 Pravesh Sudha. All rights reserved.</p>
+					<p className="text-center text-gray-400">© 2025 Pravesh Sudha. All rights reserved.</p>
 				</div>
 			</Container>
 		</footer>
