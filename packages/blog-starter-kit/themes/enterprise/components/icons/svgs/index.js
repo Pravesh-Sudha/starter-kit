@@ -8,6 +8,9 @@ import NewsletterPlusSVG from './NewsletterPlusSVG';
 import PlusCircleSVG from './PlusCircleSVG';
 import RssSVG from './RssSVG';
 import XSVG from './XSVG';
+import InstagramSVG from './InstagramSVG.js'
+import GlobeSVG from './GlobeSVG.js'
+import YouTubeSVG from './YouTubeSVG.js'
 
 export {
 	ArticleSVG,
@@ -20,4 +23,7 @@ export {
 	PlusCircleSVG,
 	RssSVG,
 	XSVG,
+	InstagramSVG,
+    GlobeSVG,
+    YouTubeSVG
 };

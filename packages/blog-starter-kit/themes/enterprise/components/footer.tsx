@@ -1,147 +1,115 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import logoTypeLight from '../assets/images/logo_type_light.svg';
 import { Container } from './container';
-import { useAppContext } from './contexts/appContext';
-import { SocialLinks } from './social-links';
 
 export const Footer = () => {
-	const { publication } = useAppContext();
-	const PUBLICATION_LOGO = publication.preferences.logo;
+	const FOOTER_LINKS = [
+		{
+			name: 'Socials',
+			links: [
+				{
+					name: 'YouTube',
+					url: 'https://www.youtube.com/@pravesh-sudha',
+					openInNewPage: true,
+				},
+				{
+					name: 'Twitter',
+					url: 'https://x.com/praveshstwt',
+					openInNewPage: true,
+				},
+				{
+					name: 'LinkedIn',
+					url: 'https://www.linkedin.com/in/pravesh-sudha/',
+					openInNewPage: true,
+				},
+				{
+					name: 'Instagram',
+					url: 'https://www.instagram.com/sudha.pravesh/',
+					openInNewPage: true,
+				},
+			],
+		},
+		{
+			name: 'Other',
+			links: [
+				{
+					name: 'GitHub',
+					url: 'https://github.com/Pravesh-Sudha',
+					openInNewPage: true,
+				},
+				{
+					name: 'Fiverr',
+					url: 'https://www.fiverr.com/praveshsudha',
+					openInNewPage: true,
+				},
+				{
+					name: 'Medium',
+					url: 'https://www.medium.com/@programmerpravesh',
+					openInNewPage: true,
+				},
+				{
+					name: 'Dev.to',
+					url: 'https://dev.to/pravesh_sudha_3c2b0c2b5e0',
+					openInNewPage: true,
+				},
+			],
+		},
+		{
+			name: 'Resources',
+			links: [
+				{
+					name: 'Home',
+					url: 'https://praveshsudha.com',
+					openInNewPage: true,
+				},
+				{
+					name: 'Blog',
+					url: '/',
+					openInNewPage: true,
+				},
+				{
+					name: 'Projects',
+					url: 'https://praveshsudha.com#projects',
+					openInNewPage: true,
+				},
+				{
+					name: 'Hire-me',
+					url: 'https://praveshsudha.com#hire-me',
+					openInNewPage: true,
+				},
+			],
+		},
+	];
 	return (
-		<footer className="border-t py-20 dark:border-neutral-800 ">
+		<footer className="bg-slate-800 pb-6 pt-10 text-slate-200 md:pb-8 md:pt-12 lg:pb-10 lg:pt-14">
 			<Container className="px-5">
-				{PUBLICATION_LOGO ? (
-					<div className="mb-20 flex w-full flex-row justify-center">
-						<Link
-							href={'/'}
-							aria-label={`${publication.title} home page`}
-							className="flex flex-row items-center gap-5"
-						>
-							<img className="block w-40" src={PUBLICATION_LOGO} alt={publication.title} />
-						</Link>
+				<div className="md:10 flex flex-col items-start justify-between gap-20 md:flex-row">
+					<Image src={logoTypeLight} alt="Kunal Kushwaha" className="md:48 w-40 lg:w-52" />
+					<div className="grid w-full grid-cols-2 gap-5 md:w-[70%] md:grid-cols-3 lg:w-[60%]">
+						{FOOTER_LINKS.map((section, key) => (
+							<div key={key} className="space-y-4">
+								<h3 className="text-sm font-semibold text-gray-400">{section.name}</h3>
+								<ul className="space-y-3">
+									{section.links.map((link, key) => (
+										<li key={key} className="text-base font-medium">
+											<Link
+												href={link.url}
+												className="relative z-0 before:absolute before:bottom-0 before:left-0 before:z-10 before:h-[1px] before:w-full before:origin-left before:scale-x-0 before:bg-gray-200 before:transition-transform hover:before:scale-x-100"
+												target={link.openInNewPage ? '_blank' : ''}
+												rel={link.openInNewPage ? 'noreferrer noopener' : ''}
+											>
+												{link.name}
+											</Link>
+										</li>
+									))}
+								</ul>
+							</div>
+						))}
 					</div>
-				) : (
-					<p className="mb-20 text-center text-xl font-semibold text-slate-900 dark:text-slate-50 md:text-4xl">
-						{publication.title}
-					</p>
-				)}
-				<div className="grid w-full grid-cols-3 gap-5 md:grid-cols-6 lg:grid-cols-5">
-					<div className="col-span-1 grid grid-cols-4 gap-5 md:col-span-4 lg:col-span-3">
-						<div className="col-span-full md:col-span-2 lg:col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">
-								Stay in touch
-							</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Contact us
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Book a demo
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Newsletter
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Slack
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div className="col-span-full md:col-span-2 lg:col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">Resources</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Community
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Use Cases
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Source Code
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Blog
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div className="col-span-full md:col-span-2 lg:col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">Product</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Pricing
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Documentation
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Integrations
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Support
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div className="col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">Other links</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Events
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Careers
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Newsroom
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										About us
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div className="col-span-2 flex flex-col items-end gap-5 text-right text-slate-600 dark:text-neutral-300 md:text-left">
-						<SocialLinks />
-						<p>&copy; 2023 Company Inc.</p>
-						<p>
-							<a href="#" className="hover:underline">
-								Privacy Policy
-							</a>{' '}
-							·{' '}
-							<a href="#" className="hover:underline">
-								Terms
-							</a>
-						</p>
-					</div>
+				</div>
+				<div className="mt-12 border-t border-gray-600 pt-8">
+					<p className="text-center text-gray-400">© 202 Pravesh Sudha. All rights reserved.</p>
 				</div>
 			</Container>
 		</footer>

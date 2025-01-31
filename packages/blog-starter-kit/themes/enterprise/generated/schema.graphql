@@ -76,6 +76,17 @@ type AddCommentPayload {
   comment: Comment
 }
 
+input AddContentBlockInput {
+  content: String!
+  embedId: String!
+  label: String!
+  projectId: ID!
+}
+
+type AddContentBlockPayload {
+  project: DocumentationProject!
+}
+
 input AddCustomMdxComponentInput {
   code: String!
   componentId: String!
@@ -1214,6 +1225,15 @@ enum DefaultDocsTheme {
   LIGHT
 }
 
+input DeleteContentBlockInput {
+  embedId: String!
+  projectId: ID!
+}
+
+type DeleteContentBlockPayload {
+  project: DocumentationProject!
+}
+
 input DeleteCustomMdxComponentInput {
   componentId: String!
   projectId: ID!
@@ -1484,6 +1504,8 @@ type DocumentationNavbarColumn implements Node {
   items: [DocumentationNavbarItem!]!
   """The label of the column."""
   label: String!
+  """The logo of the column."""
+  logo: URL
   """The date the column was last updated."""
   updatedAt: DateTime
 }
@@ -1707,6 +1729,19 @@ input DocumentationProjectAppearanceInput {
   logoDarkThemeUrl: String
   logoUrl: String
   primaryColor: String
+}
+
+type DocumentationProjectContentBlock implements Node {
+  """The MDX string of the content block."""
+  content: String!
+  """embedId, which can be used to embed the content block in the editor."""
+  embedId: String!
+  """The unique identifier for the content block"""
+  id: ID!
+  """
+  label, can be used to identify the content block from the dropdown in the editor.
+  """
+  label: String!
 }
 
 type DocumentationProjectCustomComponent implements Node {
@@ -3140,6 +3175,7 @@ type Mutation {
   acceptRoleBasedInvite(input: AcceptRoleBasedInviteInput!): AcceptRoleBasedInvitePayload!
   """Adds a comment to a post."""
   addComment(input: AddCommentInput!): AddCommentPayload!
+  addContentBlock(input: AddContentBlockInput!): AddContentBlockPayload!
   addCustomMdxComponent(input: AddCustomMdxComponentInput!): AddCustomMdxComponentPayload!
   addDocumentationProjectCustomDomain(input: AddDocumentationProjectCustomDomainInput!): AddDocumentationProjectCustomDomainPayload!
   """Adds a post to a series."""
@@ -3173,6 +3209,7 @@ type Mutation {
   """Creates a new series."""
   createSeries(input: CreateSeriesInput!): CreateSeriesPayload!
   createWebhook(input: CreateWebhookInput!): CreateWebhookPayload!
+  deleteContentBlock(input: DeleteContentBlockInput!): DeleteContentBlockPayload!
   deleteCustomMdxComponent(input: DeleteCustomMdxComponentInput!): DeleteCustomMdxComponentPayload!
   """Deletes a role based invite."""
   deleteRoleBasedInvite(input: DeleteRoleBasedInviteInput!): DeleteRoleBasedInvitePayload!
@@ -3294,6 +3331,7 @@ type Mutation {
   unsubscribeFromNewsletter(input: UnsubscribeFromNewsletterInput!): UnsubscribeFromNewsletterPayload!
   """Updates a comment on a post."""
   updateComment(input: UpdateCommentInput!): UpdateCommentPayload!
+  updateContentBlock(input: UpdateContentBlockInput!): UpdateContentBlockPayload!
   updateCustomMdxComponent(input: UpdateCustomMdxComponentInput!): UpdateCustomMdxComponentPayload!
   updateDocumentationAppearance(input: UpdateDocumentationAppearanceInput!): UpdateDocumentationAppearancePayload!
   updateDocumentationGeneralSettings(input: UpdateDocumentationGeneralSettingsInput!): UpdateDocumentationGeneralSettingsPayload!
@@ -3960,6 +3998,13 @@ type PostPreferences {
   A flag to indicate if the cover image is shown below title of the post. Default position of cover is top of title.
   """
   stickCoverToBottom: Boolean!
+}
+
+enum PostSortBy {
+  """Sorts posts by date published in ascending order."""
+  DATE_PUBLISHED_ASC
+  """Sorts posts by date published in descending order."""
+  DATE_PUBLISHED_DESC
 }
 
 """
@@ -4658,6 +4703,10 @@ input PublicationPostConnectionFilter {
   deletedOnly: Boolean
   """Remove pinned post from the result set."""
   excludePinnedPost: Boolean
+  """Tags AND filter. All tags must be present in the post."""
+  requiredTagSlugs: [String!]
+  """Tags AND filter. All tags must be present in the post."""
+  requiredTags: [ID!]
   """
   Filtering by tag slugs and tag IDs will return posts that match either of the filters.
   
@@ -4932,6 +4981,8 @@ type Query {
     filter: SearchPostsOfPublicationFilter!
     """The number of items to be returned per page."""
     first: Int!
+    """The sort order."""
+    sortBy: PostSortBy
   ): SearchPostConnection!
   """Returns tag details by its slug."""
   tag(
@@ -5428,6 +5479,8 @@ input SearchPostsOfPublicationFilter {
   publicationId: ObjectId!
   """The query to be searched in post."""
   query: String
+  """Tags AND filter. All tags must be present in the post."""
+  requiredTagsIds: [ID!]
   """An array of tag Ids to filter the posts."""
   tagIds: [ID!]
   """Filter based on time range."""
@@ -5885,6 +5938,17 @@ input UpdateCommentInput {
 
 type UpdateCommentPayload {
   comment: Comment
+}
+
+input UpdateContentBlockInput {
+  content: String!
+  embedId: String!
+  label: String!
+  projectId: ID!
+}
+
+type UpdateContentBlockPayload {
+  project: DocumentationProject!
 }
 
 input UpdateCustomMdxComponentInput {
